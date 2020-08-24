@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <input class="display" type="text" value=" " disabled />
+      <div class="firstline">
+        <button class="button button_clean_entry" value="CE">CE</button>
+        <button class="button button_clean" value="C">C</button>
+        <button class="button button_backspace" value="D">D</button>
+        <button class="button button_operation" value="/">/</button>
+      </div>
+      <div class="secondline">
+        <button class="button button_number" value="7">7</button>
+        <button class="button button_number" value="8">8</button>
+        <button class="button button_number" value="9">9</button>
+        <button class="button button_operation" value="*">*</button>
+      </div>
+      <div class="thirdline">
+        <button class="button button_number" value="4">4</button>
+        <button class="button button_number" value="5">5</button>
+        <button class="button button_number" value="6">6</button>
+        <button class="button button_operation button_with_minus" value="-">
+          -
+        </button>
+      </div>
+      <div class="fourthline">
+        <button class="button button_number" value="1">1</button>
+        <button class="button button_number" value="2">2</button>
+        <button class="button button_number" value="3">3</button>
+        <button class="button button_operation" value="+">+</button>
+      </div>
+      <div class="fifthline">
+        <button class="button button_zero button_number" value="0">0</button>
+        <button class="button button_with_dot" value=".">.</button>
+        <button class="button button_equal" value="=">=</button>
+      </div>
+    </div>
+
+    <script>
+      let buttons = document.querySelectorAll(".button_number");
+      let display = document.querySelector(".display");
+
+      let firstArg = "";
+      let secondArg = "";
+      let oper = "";
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = function () {
+          display.value += buttons[i].value;
+          if (!oper) {
+            firstArg = display.value;
+          } else if (firstArg) {
+            secondArg = display.value;
+          }
+        };
+      }
+      let operations = document.querySelectorAll(".button_operation");
+
+      for (let i = 0; i < operations.length; i++) {
+        operations[i].onclick = function () {
+          display.value += operations[i].value;
+          oper = operations[i].value;
+
+          if (firstArg && oper) {
+            display.value = " ";
+          }
+        };
+      }
+      let equal = document.querySelector(".button_equal");
+      equal.onclick = function () {
+        if (firstArg && oper && secondArg && equal) {
+          display.value = " ";
+        }
+        if (firstArg && oper && secondArg) {
+          let res = eval(`${firstArg} ${oper} ${secondArg}`);
+          display.value += res;
+          if (res) {
+            firstArg = res;
+          }
+        }
+      };
+      let minus = document.querySelector(".button_with_minus");
+      minus.onclick = function () {
+        if (!firstArg) {
+          display.value = "-";
+        } else if (firstArg && !oper) {
+          oper = "-";
+        }
+        if (firstArg && oper) {
+          display.value = " ";
+        }
+        if (
+          firstArg &&
+          !secondArg &&
+          (oper === "+" || oper === "*" || oper === "/")
+        ) {
+          display.value = "-";
+        }
+      };
+      minus.ondblclick = function () {
+        if (firstArg && oper && !secondArg) {
+          display.value = "-";
+        }
+      };
+      let dot = document.querySelector(".button_with_dot");
+      dot.onclick = function () {
+        if (firstArg || (oper && !secondArg)) {
+          display.value += ".";
+        }
+      };
+      let clean = document.querySelector(".button_clean");
+      clean.onclick = function () {
+        display.value = "";
+        firstArg = "";
+        secondArg = "";
+        oper = "";
+      };
+      let cleanEntry = document.querySelector(".button_clean_entry");
+      cleanEntry.onclick = function () {
+        if (firstArg && !oper) {
+          display.value = "";
+          firstArg = "";
+        } else if (secondArg) {
+          display.value = "";
+          secondArg = "";
+        }
+      };
+      let backspase = document.querySelector(".button_backspace");
+      backspase.onclick = function () {
+        if (firstArg || secondArg) {
+          display.value = display.value.slice(0, display.value.length - 1);
+        }
+      };
+    </script>
+  </body>
+</html>

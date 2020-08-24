@@ -1,0 +1,36 @@
+body,
+*,
+html {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+  background-color: gray;
+}
+.container {
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 100%;
+}
+.button {
+  background-color: white;
+  width: 23%;
+}
+.button_zero {
+  width: 48.666666666666666666666666666666%;
+}
+.display {
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+.firstline,
+.secondline,
+.thirdline,
+.fourthline,
+.fifthline {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
